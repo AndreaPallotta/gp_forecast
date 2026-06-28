@@ -65,10 +65,23 @@ Finally, these scores are normalized so that the total probability sum across al
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 📦 Using Pre-Compiled Release Artifacts
+If you do not want to set up the Flutter SDK locally, you can download the pre-compiled binaries directly from the **GitHub Releases** page (built automatically by our CI/CD pipeline when a new release is published):
+
+* **Android Mobile:** 
+  1. Download the `app-release.apk` from the latest release page.
+  2. Open the file on your Android device and install it (confirming any "Install from Unknown Sources" security prompts).
+* **Windows Desktop:**
+  1. Download the `gp_forecast_windows.zip` archive.
+  2. Extract the zip file completely into a folder on your computer.
+  3. Double-click `gp_forecast.exe` inside the extracted folder to run the desktop app immediately.
+
+### 💻 Running from Source Code
+
+#### Prerequisites
 Make sure you have the [Flutter SDK](https://docs.flutter.dev/get-started/install) installed.
 
-### Installation
+#### Installation
 1. Clone or navigate to the directory:
    ```bash
    cd projects/gp_forecast
@@ -78,7 +91,7 @@ Make sure you have the [Flutter SDK](https://docs.flutter.dev/get-started/instal
    flutter pub get
    ```
 
-### Running the App
+#### Running the App
 * **Windows Desktop:**
   ```bash
   flutter run -d windows
