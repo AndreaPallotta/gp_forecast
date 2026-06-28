@@ -52,6 +52,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.13.1
+  msix: ^3.16.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -96,10 +97,17 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
   image_path: "assets/images/app_icon.jpg"
   windows:
     generate: true
     image_path: "assets/images/app_icon.jpg"
     icon_size: 48
+
+msix_config:
+  display_name: GP Forecast
+  publisher_display_name: GP Forecast Team
+  identity_name: gp.forecast.app
+  logo_path: assets/images/app_icon.jpg
+  capabilities: internetClient

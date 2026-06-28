@@ -41,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-windows:
-    name: Build Windows EXE
+    name: Build Windows MSIX Installer
     runs-on: windows-latest
     steps:
       - name: Checkout Code
@@ -59,17 +59,12 @@ jobs:
       - name: Enable Windows Support
         run: flutter config --enable-windows-desktop
 
-      - name: Build Windows
-        run: flutter build windows --release
+      - name: Build MSIX Installer
+        run: dart run msix:create --install-certificate false
 
-      - name: Package Windows Build (ZIP)
-        shell: pwsh
-        run: |
-          Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath gp_forecast_windows.zip
-
-      - name: Upload Windows Binary to Release
+      - name: Upload Windows MSIX to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: gp_forecast_windows.zip
+          files: build/windows/x64/runner/Release/gp_forecast.msix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
