@@ -1,46 +1,46 @@
-# GPForecast 🏁
+# GPForecast
 
-GPForecast is a premium, client-side Formula 1 race win probability predictor built using **Flutter and Dart**. It targets mobile (phones & tablets) and Windows Desktop from a single, responsive codebase. 
+GPForecast is a client-side Formula 1 race win probability predictor built using **Flutter and Dart**. It targets mobile (phones and tablets) and Windows Desktop from a single, responsive codebase. 
 
 The application utilizes an offline-first **SQLite database** to cache F1 stats and runs a lightweight **Bayesian prediction engine** directly on the device, allowing calculations to execute in less than a millisecond with zero server hosting costs.
 
 ---
 
-## 📸 User Interface Screenshots
+## User Interface Screenshots
 
-### Main Dashboard & Dynamic Weather Adjustments
+### Main Dashboard and Dynamic Weather Adjustments
 ![Main Dashboard](assets/images/dashboard.png)
 
-### Driver Statistics & Performance History
+### Driver Statistics and Performance History
 ![Driver Details](assets/images/prediction_details.png)
 
-### Live Race Telemetry & Overtaking Simulator
+### Live Race Telemetry and Overtaking Simulator
 ![Live Simulator](assets/images/simulation.png)
 
 ---
 
-## ✨ Features
+## Features
 
-* **Offline-First Architecture:** Automatically downloads F1 schedules, driver standings, and qualifying/race results using the **Jolpica REST API** (the Ergast F1 API successor) and caches them in a local SQLite database.
-* **On-Device Bayesian Predictor:** Dynamically computes race winning probabilities on the client side based on driver standings baseline form, starting grid slots, and circuit-specific overtaking coefficients.
-* **Adaptive Glassmorphic UI:** A dark carbon-fiber design system featuring semi-transparent glassmorphic panels, F1-red accents, and smooth neon-color status indicators that automatically rearrange to fit mobile screens, tablet formats, and wide desktop windows.
-* **Unit Testing Coverage:** Includes automated FFI database tests ensuring that prediction calculations sum to exactly 100% and scale properly based on circuit characteristics.
-
----
-
-## 🛠️ Tech Stack
-
-* **Core Language:** Dart
-* **UI Framework:** Flutter
-* **State Management:** Riverpod (`flutter_riverpod`)
-* **Local Database:** SQLite (`sqflite` on mobile, `sqflite_common_ffi` on Windows Desktop)
-* **Networking:** HTTP Client (`http`)
-* **Typography:** Outfit (`google_fonts`)
-* **Charts:** FL Chart (`fl_chart`)
+- **Offline-First Architecture**: Automatically downloads F1 schedules, driver standings, and qualifying/race results using the **Jolpica REST API** (the Ergast F1 API successor) and caches them in a local SQLite database.
+- **On-Device Bayesian Predictor**: Dynamically computes race winning probabilities on the client side based on driver standings baseline form, starting grid slots, and circuit-specific overtaking coefficients.
+- **Adaptive Glassmorphic UI**: A dark carbon-fiber design system featuring semi-transparent glassmorphic panels, F1-red accents, and status indicators that automatically rearrange to fit mobile screens, tablet formats, and wide desktop windows.
+- **Unit Testing Coverage**: Includes automated FFI database tests ensuring that prediction calculations sum to exactly 100% and scale properly based on circuit characteristics.
 
 ---
 
-## 🧮 How the Prediction Model Works
+## Tech Stack
+
+- **Core Language**: Dart
+- **UI Framework**: Flutter
+- **State Management**: Riverpod (`flutter_riverpod`)
+- **Local Database**: SQLite (`sqflite` on mobile, `sqflite_common_ffi` on Windows Desktop)
+- **Networking**: HTTP Client (`http`)
+- **Typography**: Outfit (`google_fonts`)
+- **Charts**: FL Chart (`fl_chart`)
+
+---
+
+## How the Prediction Model Works
 
 GPForecast models the probability of a driver $D_i$ winning a Grand Prix as a dynamic Bayesian update that processes new evidence $E$ (like starting grid slots) to adjust baseline prior ratings.
 
@@ -56,27 +56,26 @@ Let $P_{\text{grid}}(G_i)$ represent the historical win rate for grid slot $G_i$
 $$\text{Score}(D_i) = (C \times P_{\text{grid}}(G_i)) + ((1 - C) \times P_{\text{prior}}(D_i))$$
 
 Where $C \in [0.1, 0.9]$ is a track-specific **Overtaking Penalty Coefficient**:
-* **Street circuits (e.g., Monaco, Singapore):** $C \approx 0.80$ to $0.85$ (starting position is highly dominant).
-* **Power tracks (e.g., Monza, Spa):** $C \approx 0.35$ to $0.40$ (car pace and overtaking are easier, so baseline form matters more).
+- **Street circuits (e.g., Monaco, Singapore)**: $C \approx 0.80$ to $0.85$ (starting position is highly dominant).
+- **Power tracks (e.g., Monza, Spa)**: $C \approx 0.35$ to $0.40$ (car pace and overtaking are easier, so baseline form matters more).
 
 Finally, these scores are normalized so that the total probability sum across all drivers is exactly 100%.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### 📦 Using Pre-Compiled Release Artifacts
-If you do not want to set up the Flutter SDK locally, you can download the pre-compiled binaries directly from the **GitHub Releases** page (built automatically by our CI/CD pipeline when a new release is published):
+### Using Pre-Compiled Release Artifacts
+You can download pre-compiled binaries directly from the **GitHub Releases** page (built automatically by our CI/CD pipeline when a new release is published):
 
-* **Android Mobile:** 
+- **Android Mobile**: 
   1. Download the `app-release.apk` from the latest release page.
   2. Open the file on your Android device and install it (confirming any "Install from Unknown Sources" security prompts).
-* **Windows Desktop:**
-  1. Download the `gp_forecast_windows.zip` archive.
-  2. Extract the zip file completely into a folder on your computer.
-  3. Double-click `gp_forecast.exe` inside the extracted folder to run the desktop app immediately.
+- **Windows Desktop**:
+  1. Download the `gp_forecast.msix` installer from the latest release page.
+  2. Double-click the MSIX installer to install and launch the desktop app.
 
-### 💻 Running from Source Code
+### Running from Source Code
 
 #### Prerequisites
 Make sure you have the [Flutter SDK](https://docs.flutter.dev/get-started/install) installed.
@@ -92,11 +91,11 @@ Make sure you have the [Flutter SDK](https://docs.flutter.dev/get-started/instal
    ```
 
 #### Running the App
-* **Windows Desktop:**
+- **Windows Desktop**:
   ```bash
   flutter run -d windows
   ```
-* **Mobile / Emulator:**
+- **Mobile / Emulator**:
   ```bash
   flutter run
   ```
