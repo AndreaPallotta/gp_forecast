@@ -36,7 +36,7 @@ jobs:
 
       - name: Set up Flutter
         if: success()
-        uses: subosito/flutter-action@f2c4f6fb9d9575564076644f48187ab52d2f780f # v2.18.0
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
@@ -72,7 +72,7 @@ jobs:
 
       - name: Set up Flutter
         if: success()
-        uses: subosito/flutter-action@f2c4f6fb9d9575564076644f48187ab52d2f780f # v2.18.0
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
