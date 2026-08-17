@@ -1,70 +1,107 @@
 name: Build & Release Binaries
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build-android:
     name: Build Android APK
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment: release
+
     steps:
       - name: Checkout Code
+        if: success()
         uses: actions/checkout@v4
 
       - name: Set up Java
+        if: success()
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
+          cache: 'gradle'
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        if: success()
+        uses: subosito/flutter-action@f2c4f6fb9d9575564076644f48187ab52d2f780f # v2.18.0
         with:
           channel: 'stable'
           cache: true
 
       - name: Install Dependencies
+        if: success()
         run: flutter pub get
 
       - name: Build APK
+        if: success()
         run: flutter build apk --release
 
       - name: Upload Android Binary to Release
-        uses: softprops/action-gh-release@v2
+        if: success()
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
+          name: "GP Forecast ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
           files: build/app/outputs/flutter-apk/app-release.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-windows:
     name: Build Windows MSIX Installer
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: windows-latest
+    timeout-minutes: 25
+    environment: release
+
     steps:
       - name: Checkout Code
+        if: success()
         uses: actions/checkout@v4
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        if: success()
+        uses: subosito/flutter-action@f2c4f6fb9d9575564076644f48187ab52d2f780f # v2.18.0
         with:
           channel: 'stable'
           cache: true
 
+      - name: Cache Build Artifacts
+        if: success()
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/windows/
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
       - name: Install Dependencies
+        if: success()
         run: flutter pub get
 
       - name: Enable Windows Support
+        if: success()
         run: flutter config --enable-windows-desktop
 
       - name: Build MSIX Installer
+        if: success()
         run: dart run msix:create --install-certificate false
 
       - name: Upload Windows MSIX to Release
-        uses: softprops/action-gh-release@v2
+        if: success()
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
+          name: "GP Forecast ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
           files: build/windows/x64/runner/Release/gp_forecast.msix
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
