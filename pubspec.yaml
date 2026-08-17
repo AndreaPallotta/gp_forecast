@@ -99,15 +99,15 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/app_icon.png"
+  image_path: "assets/images/app_icon.jpg"
   windows:
     generate: true
-    image_path: "assets/images/app_icon.png"
+    image_path: "assets/images/app_icon.jpg"
     icon_size: 48
 
 msix_config:
   display_name: GP Forecast
   publisher_display_name: GP Forecast Team
   identity_name: gp.forecast.app
-  logo_path: assets/images/app_icon.png
+  logo_path: assets/images/app_icon.jpg
   capabilities: internetClient
